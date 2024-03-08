@@ -1,27 +1,34 @@
 // Write your helper functions here!
 
-require('cross-fetch/polyfill');
+//require('cross-fetch/polyfill');
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
+    const missionTargetDiv = document.getElementById('missionTarget');
+    console.log(document, name, diameter, star, distance, moons, imageUrl)
+    missionTargetDiv.innerHtml = 
+    `
+        <h2>Mission Destination</h2>
+        <ol>
+            <li>Name: ${name} </li>
+            <li>Diameter: ${diameter}</li>
+            <li>Star: ${star}</li>
+            <li>Distance from Earth: ${distance} </li>
+            <li>Number of Moons: ${moons} </li>
+        </ol>
+        <img src="${imageUrl}">
+    `;
+    console.log(missionTargetDiv)
+    console.log('after setting html')
     // Here is the HTML formatting for our mission target div.
     /*
-                 <h2>Mission Destination</h2>
-                 <ol>
-                     <li>Name: </li>
-                     <li>Diameter: </li>
-                     <li>Star: ${star}</li>
-                     <li>Distance from Earth: </li>
-                     <li>Number of Moons: </li>
-                 </ol>
-                 <img src="">
+                 
     */
  }
  
  function validateInput(testInput) {
-    let inputValues = {}
     if(testInput === "" || testInput === undefined){
         return "Empty"
-    } else if(isNaN(Number(testInput))){
+    } else if(isNaN(testInput)){
         return "Not a Number"
     } else {
         return "Is a Number"
@@ -30,6 +37,10 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
  
  function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     const launchStatus = document.getElementById("launchStatus");
+    const pilotStatus = document.getElementById('pilotStatus');
+    const copilotStatus = document.getElementById('copilotStatus');
+    const fuelStatus = document.getElementById('fuelStatus');
+    const cargoStatus = document.getElementById('cargoStatus');
     let readyForLaunch = true;
 
     if(validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel) === "Empty" || validateInput(cargoLevel) === "Empty") {
@@ -37,72 +48,50 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         readyForLaunch = false;
     }
 
-    if(!validateInput(pilot) === "Not a Number"){
-        alert('pilot value should be a string');
+    if(!validateInput(pilot) === "Not a Number" || !validateInput(copilot) === "Not a Number"){
+        alert('pilot, copilot value should be a string');
         readyForLaunch = false;
     } else{
-        document.getElementById('pilotStatus').textContent = `Pilot ${pilot} is ready for launch`;
+        pilotStatus.textContent = `Pilot ${pilot} is ready for launch`;
+        copilotStatus.textContent = `Co-pilot ${copilot} is ready for launch`;
     }
-    if(!validateInput(copilot) === "Not a Number"){
-        alert('copilot value should be a string');
-        readyForLaunch = false;
-    } else{
-        document.getElementById('copilotStatus').textContent = `Co-pilot ${copilot} is ready for launch`;
-    }
-    if(validateInput(fuelLevel) === "Is a Number") {
-        //alert('fuel level value should be a number');
-        readyForLaunch = false;
-    }
-    if(validateInput(cargoLevel) === "Is a Number") {
-        //alert('cargo level value should be a number');
+    
+    if(validateInput(fuelLevel) === "Not a Number" || validateInput(cargoLevel) === "Not a Number") {
+        alert('Make sure you add valid number for fuellevl and cargo mass')
         readyForLaunch = false;
     }
     if(fuelLevel < 10000){
         list.style.visibility = 'visible';
-        document.getElementById("fuelStatus").textContent = `Fuel level too low for launch`;
+        fuelStatus.textContent = `Fuel level too low for launch`;
         readyForLaunch = false;
     } else {
         list.style.visibility = 'visible';
-        document.getElementById("fuelStatus").textContent = `Fuel level high enough for launch`;
+        fuelStatus.textContent = `Fuel level high enough for launch`;
     }
     if(cargoLevel > 10000){
         list.style.visibility = 'visible';
-        document.getElementById("cargoStatus").textContent = 'Cargo mass too heavy for launch';
+        cargoStatus.textContent = 'Cargo mass too heavy for launch';
         readyForLaunch = false;
     } else{
         list.style.visibility = 'visible';
-        document.getElementById("cargoStatus").textContent = 'Cargo mass low enough for launch';
+        cargoStatus.textContent = 'Cargo mass low enough for launch';
     }
     
-    launchStatus.textContent = readyForLaunch === true ? 'Shuttle is ready for launch' : 'Shuttle Not Ready for Launch';
+    launchStatus.textContent = readyForLaunch === true ? 'Shuttle is Ready for Launch' : 'Shuttle Not Ready for Launch';
     launchStatus.style.color = readyForLaunch ? 'green' : 'red';
-
  }
  
  async function myFetch() {
      let planetsReturned;
  
-     planetsReturned = await fetch().then( function(response) {
-         });
+     planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then((response) => response.json());
  
      return planetsReturned;
  }
  
  function pickPlanet(planets) {
+   return planets[Math.floor(Math.random() * planets.length)];
  }
-
- /*
- window.addEventListener("load", () => {
-    let form = document.querySelector("form");
-    form.addEventListener("submit", (event) => {
-        const list = document.getElementById("faultyItems");
-        const pilot = document.querySelector("input[name=pilotName]");
-        const copilot = document.querySelector("input[name=copilotName]");
-        const fuelLevel = document.querySelector("input[name=fuelLevel]");
-        const cargoLevel = document.querySelector("input[name=cargoMass]");
-        formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel);
-    })
- }) */
  
 module.exports.addDestinationInfo = addDestinationInfo;
 module.exports.validateInput = validateInput;
