@@ -28,7 +28,7 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
  function validateInput(testInput) {
     if(testInput === "" || testInput === undefined){
         return "Empty"
-    } else if(isNaN(testInput)){
+    } else if(isNaN(Number(testInput))){
         return "Not a Number"
     } else {
         return "Is a Number"
@@ -48,11 +48,19 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         readyForLaunch = false;
     }
 
-    if(!validateInput(pilot) === "Not a Number" || !validateInput(copilot) === "Not a Number"){
-        alert('pilot, copilot value should be a string');
+    if(validateInput(pilot) === "Is a Number"){
+        alert('pilot value should be a string');
+        pilotStatus.textContent = 'Enter valid pilot name to launch';
         readyForLaunch = false;
     } else{
         pilotStatus.textContent = `Pilot ${pilot} is ready for launch`;
+    }
+
+    if(validateInput(copilot) === "Is a Number"){
+        alert('copilot value should be a string');
+        copilotStatus.textContent = 'Enter valid copilot name to launch';
+        readyForLaunch = false;
+    } else{
         copilotStatus.textContent = `Co-pilot ${copilot} is ready for launch`;
     }
     

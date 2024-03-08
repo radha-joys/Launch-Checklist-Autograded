@@ -19,7 +19,7 @@ window.addEventListener("load", async function() {
     let form = document.querySelector("form");
     form.addEventListener("submit", (event) => {
         event.preventDefault();
-        const list = document.getElementById("faultyItems").value;
+        const list = document.getElementById("faultyItems");
         const pilot = document.querySelector("input[name=pilotName]").value;
         const copilot = document.querySelector("input[name=copilotName]").value;
         const fuelLevel = document.querySelector("input[name=fuelLevel]").value;
