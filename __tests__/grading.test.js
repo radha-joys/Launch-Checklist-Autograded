@@ -146,9 +146,7 @@ describe('Test student work on helper functions', () => {
       let testTarget = missionTarget.innerHTML.replace(/\s/g,'');
       expect(testTarget).toBe("<!--Fetchsomeplanetarydata-->");
       studentFunctions.addDestinationInfo(window.document, "Saturn/Titan", "5149.5 km", "Sol", "1.4 billion km from Earth", "0", "https://solarsystem.nasa.gov/system/resources/detail_files/16278_PIA20016.jpg");
-      console.log("from test case mission target: "+missionTarget.innerHTML);
       testTarget = missionTarget.innerHTML.replace(/\s/g,'');
-      console.log("from test case, testTarget: "+testTarget);
       expect(testTarget).toBe('<h2>MissionDestination</h2><ol><li>Name:Saturn/Titan</li><li>Diameter:5149.5km</li><li>Star:Sol</li><li>DistancefromEarth:1.4billionkmfromEarth</li><li>NumberofMoons:0</li></ol><imgsrc="https://solarsystem.nasa.gov/system/resources/detail_files/16278_PIA20016.jpg">');
    });
 

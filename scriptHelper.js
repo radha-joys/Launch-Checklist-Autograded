@@ -5,6 +5,7 @@
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
     const missionTargetDiv = document.getElementById('missionTarget');
     console.log(document, name, diameter, star, distance, moons, imageUrl)
+    console.log('before: '+missionTargetDiv.innerHtml)
     missionTargetDiv.innerHtml = 
     `
         <h2>Mission Destination</h2>
@@ -17,12 +18,8 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         </ol>
         <img src="${imageUrl}">
     `;
-    console.log(missionTargetDiv)
+    console.log('after: '+missionTargetDiv.innerHtml.replace(/\s/g,''))
     console.log('after setting html')
-    // Here is the HTML formatting for our mission target div.
-    /*
-                 
-    */
  }
  
  function validateInput(testInput) {
@@ -46,6 +43,7 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     if(validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel) === "Empty" || validateInput(cargoLevel) === "Empty") {
         alert("All fields are required.");
         readyForLaunch = false;
+        return;
     }
 
     if(validateInput(pilot) === "Is a Number"){
@@ -100,6 +98,7 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
  function pickPlanet(planets) {
    return planets[Math.floor(Math.random() * planets.length)];
  }
+ 
  
 module.exports.addDestinationInfo = addDestinationInfo;
 module.exports.validateInput = validateInput;
