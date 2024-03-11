@@ -4,9 +4,8 @@
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
     const missionTargetDiv = document.getElementById('missionTarget');
-    console.log(document, name, diameter, star, distance, moons, imageUrl)
-    console.log('before: '+missionTargetDiv.innerHtml)
-    missionTargetDiv.innerHtml = 
+    //console.log('before: '+missionTargetDiv.innerHtml)
+    missionTargetDiv.innerHTML = 
     `
         <h2>Mission Destination</h2>
         <ol>
@@ -18,8 +17,8 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         </ol>
         <img src="${imageUrl}">
     `;
-    console.log('after: '+missionTargetDiv.innerHtml.replace(/\s/g,''))
-    console.log('after setting html')
+    //console.log('after setting html')
+    //console.log('after: '+missionTargetDiv.innerHtml.replace(/\s/g,''))
  }
  
  function validateInput(testInput) {
@@ -42,45 +41,38 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 
     if(validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel) === "Empty" || validateInput(cargoLevel) === "Empty") {
         alert("All fields are required.");
-        readyForLaunch = false;
+        launchStatus.textContent = 'Awaiting Information Before Launch';
+        list.style.visibility = 'hidden';
+        launchStatus.style.color = 'black';
         return;
     }
-
-    if(validateInput(pilot) === "Is a Number"){
-        alert('pilot value should be a string');
-        pilotStatus.textContent = 'Enter valid pilot name to launch';
-        readyForLaunch = false;
-    } else{
-        pilotStatus.textContent = `Pilot ${pilot} is ready for launch`;
-    }
-
-    if(validateInput(copilot) === "Is a Number"){
-        alert('copilot value should be a string');
-        copilotStatus.textContent = 'Enter valid copilot name to launch';
-        readyForLaunch = false;
-    } else{
-        copilotStatus.textContent = `Co-pilot ${copilot} is ready for launch`;
-    }
-    
-    if(validateInput(fuelLevel) === "Not a Number" || validateInput(cargoLevel) === "Not a Number") {
-        alert('Make sure you add valid number for fuellevl and cargo mass')
-        readyForLaunch = false;
-    }
-    if(fuelLevel < 10000){
-        list.style.visibility = 'visible';
-        fuelStatus.textContent = `Fuel level too low for launch`;
-        readyForLaunch = false;
-    } else {
-        list.style.visibility = 'visible';
-        fuelStatus.textContent = `Fuel level high enough for launch`;
-    }
-    if(cargoLevel > 10000){
-        list.style.visibility = 'visible';
-        cargoStatus.textContent = 'Cargo mass too heavy for launch';
-        readyForLaunch = false;
-    } else{
-        list.style.visibility = 'visible';
-        cargoStatus.textContent = 'Cargo mass low enough for launch';
+    else{
+        if(validateInput(pilot) === "Is a Number" || validateInput(copilot) === "Is a Number" || validateInput(fuelLevel) === "Not a Number" || validateInput(cargoLevel) === "Not a Number"){
+            alert('Make sure to enter valid information for each field');
+            launchStatus.textContent = 'Awaiting Information Before Launch';
+            list.style.visibility = 'hidden';
+            launchStatus.style.color = 'black';
+            return;
+        } else{
+            pilotStatus.textContent = `Pilot ${pilot} is ready for launch`;
+            copilotStatus.textContent = `Co-pilot ${copilot} is ready for launch`;
+            if(fuelLevel < 10000){
+                list.style.visibility = 'visible';
+                fuelStatus.textContent = `Fuel level too low for launch`;
+                readyForLaunch = false;
+            } else {
+                list.style.visibility = 'visible';
+                fuelStatus.textContent = `Fuel level high enough for launch`;
+            }
+            if(cargoLevel > 10000){
+                list.style.visibility = 'visible';
+                cargoStatus.textContent = 'Cargo mass too heavy for launch';
+                readyForLaunch = false;
+            } else{
+                list.style.visibility = 'visible';
+                cargoStatus.textContent = 'Cargo mass low enough for launch';
+            }
+        }
     }
     
     launchStatus.textContent = readyForLaunch === true ? 'Shuttle is Ready for Launch' : 'Shuttle Not Ready for Launch';
